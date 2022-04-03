@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="feign-client-interface" />
+        <module name="config-client" />
+        <module name="stream-consumer1" />
+        <module name="stream-consumer2" />
+        <module name="gateway-sample" />
+        <module name="feign-consumer-advanced" />
+        <module name="eureka-server" />
+        <module name="feign-client" />
+        <module name="hystrix-turbine" />
+        <module name="delay-message" />
+        <module name="auth-service" />
+        <module name="hystrix-dashboard" />
+        <module name="sleuth-traceA" />
+        <module name="stream-consumer3" />
+        <module name="sleuth-traceB" />
+        <module name="zipkin-server" />
+        <module name="config-bus-server" />
+        <module name="stream-producer" />
+        <module name="auth-service-api" />
+        <module name="rate-limiter" />
+        <module name="stream-sample" />
+        <module name="rate-limiter-test" />
+        <module name="eureka-client-2" />
+        <module name="config-server" />
+        <module name="config-bus-client-1" />
+        <module name="ribbon-consumer" />
+        <module name="eureka-client" />
+        <module name="config-bus-client" />
+        <module name="hystrix-fallback" />
+        <module name="config-server-eureka" />
+        <module name="eureka-client-1" />
+        <module name="eureka-consumer" />
+        <module name="feign-consumer" />
+        <module name="rate-limiter-annotation" />
+        <module name="retry-message" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="11">
+      <module name="test" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: config-bus-client
+  rabbitmq:
+    host: 192.168.218.4
+    port: 5672
+    username: admin
+    password: 123
+  cloud:
+    # 需要设置一个默认的消息中间件做基于Bus的消息推送，如果不写，Bus不知道是用RabbitMQ还是Kafka
+    # 如果只引入bus-amqp或bus-kafka之一，实际是不需要设置的，但是加上也无妨
+    stream:
+      default-binder: rabbit
+    config:
+      # 如果不写name，会默认使用spring.application.name，但是gitee上是config-consumer-pro/dev.yml，会匹配不
+      # 上，所以这里使用name覆盖默认的spring.application.name。使之保持一致
+      name: config-consumer
+      discovery:
+        enabled: true
+        service-id: config-bus-server-eureka
+      profile: pro
+      label: master
+
+
+server:
+  port: 61001
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:20000/eureka/
+
+myWords: ${words}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"    # 暴露所有接口
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,39 @@
+server:
+  port: 65000
+
+spring:
+  application:
+    name: gateway-server
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          # 开启：通过Eureka服务发现，将所有注册的服务都给定位到
+          enabled: true
+          # Eureka中所有的application.name都是大写，Gateway给每个服务做路由的时候，也会使用大写的服务名作为
+          # 路由的一部分，但是路由我们都习惯小写，所以这里开启小写转换(大小写只能选其一，另外的一种访问就会404)
+          lower-case-service-id: true
+
+      routes:                    # "-"代表list中的一个元素，routes可以配置多个Route，每个Route的配置都以"-"开头
+      - id: eurekaclient
+        uri: lb://EUREKA-CLIENT
+        predicates:              # predicates下同样可配置多个断言，每个断言用用"-"区分
+        - Path=/yml/**           # 所有以yml开头的请求都转发到这个Route中上面的Uri中
+        # 比如经过上面的断言拦截、Url转发，原本的"GatewayIP:Port/yml/sayHi"--->"EUREKA-CLIENT服务某节点的IP:Port/yml/sayHi"
+        # 再经过下面filters过滤掉首位，变为"EUREKA-CLIENT服务某节点的IP:Port/sayHi"
+        filters:                 # filters下同样可配置多个过滤器，每个过滤器用用"-"区分
+          - StripPrefix=1        # 表示去掉第一位的字符。如localhost:777/aaa/bbb经过此过滤器就变为localhost:777/bbb
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:20000/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"    # 暴露所有接口
+  endpoint:
+    health:
+      show-details: always

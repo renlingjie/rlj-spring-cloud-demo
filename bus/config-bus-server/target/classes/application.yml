@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: config-bus-server-eureka
+  rabbitmq:
+    host: 192.168.218.4
+    port: 5672
+    username: admin
+    password: 123
+  cloud:
+    config:
+      server:
+        git:                # 注意有git的，有数据库的，还有本地文件的
+          uri: https://gitee.com/ren-lingjie/config-repository.git
+          # 1、若不是public公开是要登录的的，在uri同一级下由username/password指定用户名密码
+          # 2、若配置文件在某路径下，因为默认只查main。故需在uri同一级下由search-paths指定路径，可以配置添加多个路径如
+          # "path1, path2"。之后配置中心Config-Server会从main、path1、path2三个地方下去读取。且可以用通配符如*等
+          force-pull: true  #强制拉取配置文件
+
+# 高可用
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:20000/eureka/
+server:
+  port: 60002
+
+# 总线式架构的Config-Server需要暴露actuator的endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"    # 暴露所有接口
+  endpoint:
+    health:
+      show-details: always
+

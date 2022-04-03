@@ -1,0 +1,37 @@
+spring:
+  application:
+    name: config-client
+  cloud:
+    config:
+      # 如果不写name，会默认使用spring.application.name，但是gitee上是config-consumer-pro/dev.yml，会匹配不
+      # 上，所以这里使用name覆盖默认的spring.application.name。使之保持一致
+      name: config-consumer
+      # uri: http://localhost:60000
+      discovery:
+        enabled: true
+        service-id: config-server-eureka  #配置中心集群的每个节点的服务名spring.pplication.name
+      # 实际工作中这里是不会写死的，而是会在操作系统层面，或者Tomcat中配置，测试的Tomcat启动会自动注入dev，生产环境则
+      # 会自动注入pro这样的。这里一定要和gitee上的某个文件的profile一致。比如gitee上是config-consumer-pro.yml，
+      # 这里如果写成prod就是错误的
+      profile: pro
+      label: master
+
+
+server:
+  port: 61000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:20000/eureka/
+
+myWords: ${words}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"    # 暴露所有接口
+  endpoint:
+    health:
+      show-details: always

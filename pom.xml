@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.rlj</groupId>
+    <artifactId>rlj-spring-cloud-demo</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0.0-SNAPSHOT</version>
+
+    <modules>
+        <module>ratelimiter/rate-limiter</module>
+        <module>ratelimiter/rate-limiter-annotation</module>
+        <module>ratelimiter/rate-limiter-test</module>
+        <module>eureka/eureka-server</module>
+        <module>eureka/eureka-client</module>
+        <module>eureka/eureka-consumer</module>
+        <module>ribbon/ribbon-consumer</module>
+        <module>eureka/eureka-client-1</module>
+        <module>eureka/eureka-client-2</module>
+        <module>feign/feign-consumer</module>
+        <module>feign/feign-client-interface</module>
+        <module>feign/feign-client</module>
+        <module>feign/feign-consumer-advanced</module>
+        <module>hystrix/hystrix-fallback</module>
+        <module>hystrix/hystrix-turbine</module>
+        <module>hystrix/hystrix-dashboard</module>
+        <module>config/config-server</module>
+        <module>config/config-client</module>
+        <module>config/config-server-eureka</module>
+        <module>bus/config-bus-server</module>
+        <module>bus/config-bus-client</module>
+        <module>bus/config-bus-client-1</module>
+        <module>gateway/gateway-sample</module>
+        <module>gateway/auth-service-api</module>
+        <module>gateway/auth-service</module>
+        <module>sleuth/sleuth-traceA</module>
+        <module>sleuth/sleuth-traceB</module>
+        <module>sleuth/zipkin-server</module>
+        <module>stream/stream-sample</module>
+        <module>stream/stream-consumer1</module>
+        <module>stream/stream-consumer2</module>
+        <module>stream/stream-consumer3</module>
+        <module>stream/stream-producer</module>
+        <module>stream/delay-message</module>
+        <module>stream/retry-message</module>
+    </modules>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+    <!--dependencyManagement和dependencies的区别：若父项目中仅使用dependencies，那么子项目可以直接
+    使用父项目中dependencies中的依赖；而dependencyManagement是为了使各子项目的version保持一致(避免版本
+    冲突)，即子项目中还需要引入依赖的，但是可以不写版本，版本统一由dependencyManagement中对应依赖的版本指定，
+    当然，如果在子项目中写了版本/或者父项目中没有指定的依赖，就不会使用父项目对应依赖的版本-->
+    <dependencyManagement>
+        <!--这里dependencyManagement主要引入了两个依赖，一个是org.springframework.cloud，指定其版本为Greenwich.SR1，
+        点进去可以看一下，发现其下有非常多的子组件依赖(Bus、GateWay、Sleuth、Stream等)，而且版本都是对应Greenwich.SR1的，
+        后续我们每个模块的学习，只需要在模块中引入对应的依赖，就不用指定版本了。
+        另一个就是org.springframework.boot，版本2.1.5，后续我们同样就不用在子项目中指定版本了-->
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Greenwich.SR1</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-parent</artifactId>
+                <version>2.1.5.RELEASE</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.0</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>
